@@ -305,6 +305,8 @@ int main(void)
 	}
 
 	mainwin = uiNewWindow("libui Control Gallery", 640, 480, 1);
+
+
 	uiWindowOnClosing(mainwin, onClosing, NULL);
 	uiOnShouldQuit(onShouldQuit, mainwin);
 
@@ -324,7 +326,7 @@ int main(void)
 	uiControlShow(uiControl(mainwin));
 	uiMain();
 	
-	uiWindowShow(uiControl(mainwin));
+	uiWindowShow(mainwin);
 	return 0;
 }
 

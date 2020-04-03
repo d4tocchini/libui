@@ -16,6 +16,7 @@ struct uiWindow {
 	BOOL suppressSizeChanged;
 	int fullscreen;
 	int borderless;
+	int centered;
 };
 
 @implementation uiprivNSWindow
@@ -172,9 +173,9 @@ static int uiWindowVisible(uiControl *c)
 	return [w->window isVisible];
 }
 
-void uiWindowShow(uiControl *c)
+void uiWindowShow(uiWindow *w)
 {
-	uiWindow *w = (uiWindow *) c;
+	// uiWindow *w = (uiWindow *) c;
 	// TODO: D4
 	// https://developer.apple.com/documentation/appkit/nswindow/1419208-makekeyandorderfront?language=objc
 	[w->window makeKeyAndOrderFront:w->window];
@@ -182,6 +183,13 @@ void uiWindowShow(uiControl *c)
 	// [w->window orderFrontRegardless];
 	// [w->window makeKeyAndOrderFront:nil];
 	// [w->window orderFront: nil];
+}
+
+void uiWindowSetCentered(uiWindow *w, int centered) {
+	w->centered = centered;
+	if (centered) {
+		[w->window center];
+	}
 }
 
 static void uiWindowHide(uiControl *c)
@@ -226,6 +234,10 @@ static void windowRelayout(uiWindow *w)
 		uiDarwinControlHugsBottom(uiDarwinControl(w->child)),
 		w->margined,
 		@"uiWindow");
+
+	if (w->centered) {
+		[w->window center];
+	}
 }
 
 uiDarwinControlDefaultHugsTrailingEdge(uiWindow, window)
@@ -385,6 +397,17 @@ uiWindow *uiNewWindow(const char *title, int width, int height, int hasMenubar)
 		backing:NSBackingStoreBuffered
 		defer:YES];
 	[w->window setTitle:uiprivToNSString(title)];
+
+	w->centered = 1;
+
+	// https://github.com/andlabs/libui/pull/271/files
+	// if (NSEqualPoints(lastTopLeftPoint, NSZeroPoint)) {
+	// 	// issue "cascadeTopLeftFromPoint" twice on first time
+	// 	// to have window position in a good place
+	// 	lastTopLeftPoint = [w->window cascadeTopLeftFromPoint:lastTopLeftPoint];
+	// }
+	// lastTopLeftPoint = [w->window cascadeTopLeftFromPoint:lastTopLeftPoint];
+
 
 	// do NOT release when closed
 	// we manually do this in uiWindowDestroy() above

@@ -20,6 +20,7 @@ struct uiWindow {
 	int fullscreen;
 	WINDOWPLACEMENT fsPrevPlacement;
 	int borderless;
+	int centered;
 };
 
 // from https://msdn.microsoft.com/en-us/library/windows/desktop/dn742486.aspx#sizingandspacing
@@ -201,9 +202,9 @@ static int uiWindowVisible(uiControl *c)
 	return w->visible;
 }
 
-void uiWindowShow(uiControl *c)
+void uiWindowShow(uiWindow *w)
 {
-	uiWindow *w = uiWindow(c);
+	// uiWindow *w = uiWindow(c);
 
 	w->visible = 1;
 	// just in case the window's minimum size wasn't recalculated already
@@ -226,6 +227,11 @@ static void uiWindowHide(uiControl *c)
 
 	w->visible = 0;
 	ShowWindow(w->hwnd, SW_HIDE);
+}
+
+void uiWindowSetCentered(uiWindow *w, int centered) {
+	w->centered = centered;
+	// TODO:
 }
 
 // TODO we don't want the window to be disabled completely; that would prevent it from being moved! ...would it?

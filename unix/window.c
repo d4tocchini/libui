@@ -19,6 +19,7 @@ struct uiWindow {
 
 	uiControl *child;
 	int margined;
+	int centered;
 
 	int (*onClosing)(uiWindow *, void *);
 	void *onClosingData;
@@ -98,14 +99,17 @@ static int uiWindowToplevel(uiControl *c)
 
 uiUnixControlDefaultVisible(uiWindow)
 
-void uiWindowShow(uiControl *c)
+void uiWindowShow(uiWindow *w)
 {
-	uiWindow *w = uiWindow(c);
-
 	// don't use gtk_widget_show_all() as that will show all children, regardless of user settings
 	// don't use gtk_widget_show(); that doesn't bring to front or give keyboard focus
 	// (gtk_window_present() does call gtk_widget_show() though)
 	gtk_window_present(w->window);
+}
+
+void uiWindowSetCentered(uiWindow *w, int centered) {
+	w->centered = centered;
+	// TODO:
 }
 
 uiUnixControlDefaultHide(uiWindow)

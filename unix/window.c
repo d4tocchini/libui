@@ -98,7 +98,7 @@ static int uiWindowToplevel(uiControl *c)
 
 uiUnixControlDefaultVisible(uiWindow)
 
-static void uiWindowShow(uiControl *c)
+void uiWindowShow(uiControl *c)
 {
 	uiWindow *w = uiWindow(c);
 

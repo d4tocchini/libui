@@ -172,11 +172,16 @@ static int uiWindowVisible(uiControl *c)
 	return [w->window isVisible];
 }
 
-static void uiWindowShow(uiControl *c)
+void uiWindowShow(uiControl *c)
 {
 	uiWindow *w = (uiWindow *) c;
-
+	// TODO: D4
+	// https://developer.apple.com/documentation/appkit/nswindow/1419208-makekeyandorderfront?language=objc
 	[w->window makeKeyAndOrderFront:w->window];
+	[w->window setLevel:NSFloatingWindowLevel];
+	// [w->window orderFrontRegardless];
+	// [w->window makeKeyAndOrderFront:nil];
+	// [w->window orderFront: nil];
 }
 
 static void uiWindowHide(uiControl *c)

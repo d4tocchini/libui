@@ -323,6 +323,8 @@ int main(void)
 
 	uiControlShow(uiControl(mainwin));
 	uiMain();
+	
+	uiWindowShow(uiControl(mainwin));
 	return 0;
 }
 

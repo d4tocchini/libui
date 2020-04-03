@@ -201,7 +201,7 @@ static int uiWindowVisible(uiControl *c)
 	return w->visible;
 }
 
-static void uiWindowShow(uiControl *c)
+void uiWindowShow(uiControl *c)
 {
 	uiWindow *w = uiWindow(c);
 
